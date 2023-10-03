@@ -64,7 +64,11 @@ const BaseLayout: FC = (): ReactElement => {
         >
           <Menu mode='inline' items={meunItems} />
         </Sider>
-        <Content>
+        <Content
+          css={{
+            padding: '10px',
+          }}
+        >
           <HomePageRouters />
         </Content>
       </Layout>
