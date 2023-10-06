@@ -647,7 +647,7 @@ const staff: FC = (): ReactElement => {
           marginTop: "30px",
         }}
       >
-        3. 国家重点实验室人员拓补
+        3. 国家重点实验室人员拓扑
       </div>
       <div>
         <Charts
