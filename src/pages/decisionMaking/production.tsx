@@ -216,7 +216,7 @@ const getTopoGraph = (data: any) => {
     nodes: [
       {
         id: "0",
-        name: "国家重点实验室人员情况",
+        name: "原材料",
         draggable: true,
         colors: blue,
       },
@@ -547,7 +547,7 @@ const production: FC = (): ReactElement => {
             color: '#1677ff',
           }}
         >
-          国家重点实验室人员决策分析
+          生产链决策分析
         </div>
         <div
           css={{
@@ -592,7 +592,7 @@ const production: FC = (): ReactElement => {
           marginTop: "10px",
         }}
       >
-        1. 国家重点实验室人员决策措施及响应程度
+        1. 生产链决策措施及响应程度
       </div>
       <div
         css={{
@@ -610,7 +610,7 @@ const production: FC = (): ReactElement => {
           marginTop: "10px",
         }}
       >
-        2. 国家重点实验室人员高于预警决策分析
+        2. 生产链高于预警决策分析
       </div>
       <div
         css={{
@@ -647,7 +647,7 @@ const production: FC = (): ReactElement => {
           marginTop: "30px",
         }}
       >
-        3. 国家重点实验室人员拓补
+        3. 生产链拓扑
       </div>
       <div>
         <Charts
