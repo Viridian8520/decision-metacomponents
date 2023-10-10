@@ -15,11 +15,11 @@ const prediction: FC = (): ReactElement => {
   return (
     <Fragment>
       {
-        firstLevelPathKey === "manpowerChain" ?
-          <Staff /> : firstLevelPathKey === "capitalChain" ?
-            <Wealth /> : firstLevelPathKey === "logisticsChain" ?
-              <Convey /> : firstLevelPathKey === "productionChain" ?
-                <Production /> : firstLevelPathKey === "distributionChain" ?
+        firstLevelPathKey === "staff" ?
+          <Staff /> : firstLevelPathKey === "wealth" ?
+            <Wealth /> : firstLevelPathKey === "convey" ?
+              <Convey /> : firstLevelPathKey === "production" ?
+                <Production /> : firstLevelPathKey === "sale" ?
                   <Sale /> : <EmptyPage />
       }
     </Fragment>

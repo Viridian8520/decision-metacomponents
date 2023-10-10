@@ -67,7 +67,7 @@ const BaseLayout: FC = (): ReactElement => {
         <Content
           css={{
             padding: '10px',
-            overflow: 'scroll',
+            overflow: 'auto',
           }}
         >
           <HomePageRouters />
