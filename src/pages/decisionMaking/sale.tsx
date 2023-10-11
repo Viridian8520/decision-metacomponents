@@ -1,7 +1,7 @@
 /* @jsxImportSource @emotion/react */
 import { Button, Form, Table } from 'antd';
 import { Fragment, type FC, type ReactElement, useState } from 'react';
-import { getSaleDecision } from './service';
+import { getEarlyWaringOptionOnRedux, getSaleDecision } from './service';
 import { EChartOption } from "echarts";
 import { Charts } from "@/components/Charts";
 import { translationTable } from '@/utils/constant';
@@ -276,16 +276,17 @@ const sale: FC = (): ReactElement => {
   const [levelOptions, setLevelOptions] = useState<EChartOption>(levelOption);
   const [measureOptions, setMeasureOptions] = useState<EChartOption>(measureOption);
   const [topoOptions, setTopoOptions] = useState<EChartOption>(topoOption);
-
-  const formData = {
-    categories: 5,  // 销售链
-    time: 1690946777, // 以秒为单位的时间戳
-    granularity: 1, // 年/月/季
-    alarmType: 2, // 预警类型（全部/高于/低于）
-    corporation: "小丫家电",  // 公司
-    attributes: "产品销量", // 阈值波动范围
-    attributesValue: "100", // 阈值
-  }
+  // 保存在redux的选择的预警数据以及其更新方法
+  const { earlyWarningOption } = getEarlyWaringOptionOnRedux("sale");
+  let formData: any = earlyWarningOption || {
+    categories: undefined,  // 销售链
+    time: undefined, // 以秒为单位的时间戳
+    granularity: undefined, // 年/月/季
+    alarmType: undefined, // 预警类型（全部/高于/低于）
+    corporation: undefined,  // 公司
+    attributes: undefined, // 阈值波动范围
+    attributesValue: undefined, // 阈值
+  };
 
   const columns = [
     {
