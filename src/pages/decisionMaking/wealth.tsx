@@ -105,10 +105,14 @@ const topoOption: EChartOption = {
       symbolSize: 90,
       roam: true,
       edgeSymbol: ["circle", "arrow"],
+      edgeSymbolSize: [2, 8], // 两端大小
+      cursor: 'pointer',
       force: { // 节点排斥力设置
-        repulsion: 200,
+        repulsion: 200,// 两个节点之间的距离
         gravity: 0,
-        edgeLength: 200
+        edgeLength: 200,//节点之间的斥力因子值
+        friction: 1, // 节点的移动速度 取值0~1
+        layoutAnimation: true
       },
       itemStyle: {
         normal: { // 不同节点显示不同颜色
@@ -187,11 +191,35 @@ const wealth: FC = (): ReactElement => {
   };
   console.log(formData);
 
+  // 格式化事件时间戳
+  const formatDate = (timestamp: number): string => {
+    const date = new Date(timestamp * 1000); // 将时间戳转换为Date对象
+    // const year = date.getFullYear();
+    const month: any = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份从0开始，需要加1，并补0
+    const day: any = (date.getDate() + 1).toString().padStart(2, '0');
+
+    console.log(formData.granularity === 1);
+
+    if (formData.granularity === 1 || formData.granularity === '1') {
+      return `第${Math.floor((month - 1) / 3) + 1}季度`;
+    } else if (formData.granularity === 2 || formData.granularity === '2') {
+      return `${month}月`;
+    } else if (formData.granularity === 3 || formData.granularity === '3') {
+      return `${day}日`;
+    } else {
+      return '无';
+    }
+  }
+
   const columns = [
     {
-      title: '资金类别',
-      dataIndex: 'categories',
-      key: 'categories',
+      title: '时间',
+      dataIndex: 'eventTime',
+      key: 'eventTime',
+      render: (text: number) => {
+        const time: string = formatDate(text);
+        return time;
+      }
     },
     {
       title: formData.attributes,
@@ -380,7 +408,7 @@ const wealth: FC = (): ReactElement => {
       for (let j = 0; j < dataWithCategories[corporationList[i]].length; j++) {
         graph.nodes.push({
           id: `${nodesCount + j}`,
-          name: `${dataWithCategories[corporationList[i]][j].categories}`,
+          name: `${formatDate(dataWithCategories[corporationList[i]][j].eventTime)}`,
           draggable: true,
           colors: dataWithCategories[corporationList[i]][j].level === 2 ? red : dataWithCategories[corporationList[i]][j].level === 1 ? green : yellow,
           // colors: dataWithCategories[corporationList[i]][j].alarmType === 1 ? red : dataWithCategories[corporationList[i]][j].alarmType === 0 ? yellow : green,
@@ -557,10 +585,14 @@ const wealth: FC = (): ReactElement => {
             symbolSize: 90,
             roam: true,
             edgeSymbol: ["circle", "arrow"],
+            edgeSymbolSize: [2, 8], // 两端大小
+            cursor: 'pointer',
             force: { // 节点排斥力设置
-              repulsion: 200,
+              repulsion: 200,// 两个节点之间的距离
               gravity: 0,
-              edgeLength: 200
+              edgeLength: 200,//节点之间的斥力因子值
+              friction: 1, // 节点的移动速度 取值0~1
+              layoutAnimation: true
             },
             itemStyle: {
               normal: { // 不同节点显示不同颜色
@@ -670,7 +702,7 @@ const wealth: FC = (): ReactElement => {
           marginTop: "10px",
         }}
       >
-        2. 企业资金高于预警决策分析
+        2. 企业资金决策分析
       </div>
       <div
         css={{

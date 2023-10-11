@@ -104,10 +104,13 @@ const topoOption: EChartOption = {
       symbolSize: 90,
       roam: true,
       edgeSymbol: ["circle", "arrow"],
+      edgeSymbolSize: [2, 8], // 两端大小
+      cursor: 'pointer',
       force: { // 节点排斥力设置
-        repulsion: 200,
-        gravity: 0,
-        edgeLength: 200
+        repulsion: 300,// 两个节点之间的距离
+        edgeLength: 300,//节点之间的斥力因子值
+        friction: 1, // 节点的移动速度 取值0~1
+        layoutAnimation: true
       },
       itemStyle: {
         normal: { // 不同节点显示不同颜色
@@ -178,7 +181,7 @@ const getTopoGraph = (data: any) => {
     nodes: [
       {
         id: "0",
-        name: "国家重点实验室人员情况",
+        name: "人力链人员数量预测情况",
         draggable: true,
         colors: blue,
       },
@@ -207,7 +210,7 @@ const getTopoGraph = (data: any) => {
     for (let j = 0; j < data[corporationList[i]].length; j++) {
       graph.nodes.push({
         id: `${nodesCount + j}`,
-        name: `${data[corporationList[i]][j].categories}`,
+        name: `${data[corporationList[i]][j].skill}`,
         draggable: true,
         colors: data[corporationList[i]][j].level === 2 ? red : data[corporationList[i]][j].level === 1 ? green : yellow,
         // colors: data[corporationList[i]][j].alarmType === 1 ? red : data[corporationList[i]][j].alarmType === 0 ? yellow : green,
@@ -289,10 +292,15 @@ const staff: FC = (): ReactElement => {
   };
 
   const columns = [
+    // {
+    //   title: '种类',
+    //   dataIndex: 'categories',
+    //   key: 'categories',
+    // },
     {
-      title: '种类',
-      dataIndex: 'categories',
-      key: 'categories',
+      title: '技能',
+      dataIndex: 'skill',
+      key: 'skill',
     },
     {
       title: formData.attributes,
@@ -538,10 +546,14 @@ const staff: FC = (): ReactElement => {
             symbolSize: 90,
             roam: true,
             edgeSymbol: ["circle", "arrow"],
+            edgeSymbolSize: [2, 8], // 两端大小
+            cursor: 'pointer',
             force: { // 节点排斥力设置
-              repulsion: 200,
+              repulsion: 200,// 两个节点之间的距离
               gravity: 0,
-              edgeLength: 200
+              edgeLength: 200,//节点之间的斥力因子值
+              friction: 1, // 节点的移动速度 取值0~1
+              layoutAnimation: true
             },
             itemStyle: {
               normal: { // 不同节点显示不同颜色
@@ -588,7 +600,7 @@ const staff: FC = (): ReactElement => {
             color: '#1677ff',
           }}
         >
-          国家重点实验室人员决策分析
+          人力链人员数量决策分析
         </div>
         <div
           css={{
@@ -633,7 +645,7 @@ const staff: FC = (): ReactElement => {
           marginTop: "10px",
         }}
       >
-        1. 国家重点实验室人员决策措施及响应程度
+        1. 人力链人员数量决策措施及响应程度
       </div>
       <div
         css={{
@@ -651,7 +663,7 @@ const staff: FC = (): ReactElement => {
           marginTop: "10px",
         }}
       >
-        2. 国家重点实验室人员高于预警决策分析
+        2. 人力链人员数量决策分析
       </div>
       <div
         css={{
@@ -688,7 +700,7 @@ const staff: FC = (): ReactElement => {
           marginTop: "30px",
         }}
       >
-        3. 国家重点实验室人员拓扑
+        3. 人力链人员数量拓扑
       </div>
       <div>
         <Charts

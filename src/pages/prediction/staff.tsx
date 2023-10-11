@@ -104,7 +104,7 @@ const staff: FC = (): ReactElement => {
             color: '#1677ff',
           }}
         >
-          国家重点实验室人员预测情况
+          人力链人员数量预测情况
         </div>
         <div
           css={{
