@@ -189,7 +189,6 @@ const wealth: FC = (): ReactElement => {
     attributes: undefined, // 阈值波动范围
     attributesValue: undefined, // 阈值
   };
-  console.log(formData);
 
   // 格式化事件时间戳
   const formatDate = (timestamp: number): string => {
@@ -197,8 +196,6 @@ const wealth: FC = (): ReactElement => {
     // const year = date.getFullYear();
     const month: any = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份从0开始，需要加1，并补0
     const day: any = (date.getDate() + 1).toString().padStart(2, '0');
-
-    console.log(formData.granularity === 1);
 
     if (formData.granularity === 1 || formData.granularity === '1') {
       return `第${Math.floor((month - 1) / 3) + 1}季度`;

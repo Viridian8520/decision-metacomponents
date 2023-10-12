@@ -196,8 +196,6 @@ const production: FC = (): ReactElement => {
     const month: any = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份从0开始，需要加1，并补0
     const day: any = (date.getDate() + 1).toString().padStart(2, '0');
 
-    console.log(formData.granularity === 1);
-
     if (formData.granularity === 1 || formData.granularity === '1') {
       return `第${Math.floor((month - 1) / 3) + 1}季度`;
     } else if (formData.granularity === 2 || formData.granularity === '2') {
