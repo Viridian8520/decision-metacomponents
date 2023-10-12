@@ -3,7 +3,7 @@ import { firstLevelMenuEnum, secondaryMenuEnum } from '@/utils/constant';
 
 interface CurrentPathInterface {
   firstLevelPathKey: string,  // 一级路由键
-  firstLevelPathKeValue: string,  // 一级路由值
+  firstLevelPathValue: string,  // 一级路由值
   secondaryPathKey: string,  // 二级路由键
   secondaryPathValue: string,  // 二级路由值
 }
@@ -18,7 +18,7 @@ const useCurrentPath = (): CurrentPathInterface => {
 
   return {
     firstLevelPathKey: pathname.split('/')[1],
-    firstLevelPathKeValue: firstLevelMenuEnum[pathname.split('/')[1] as keyof typeof firstLevelMenuEnum],
+    firstLevelPathValue: firstLevelMenuEnum[pathname.split('/')[1] as keyof typeof firstLevelMenuEnum],
     secondaryPathKey: pathname.split('/')[2],
     secondaryPathValue: secondaryMenuEnum[pathname.split('/')[2] as keyof typeof secondaryMenuEnum],
   }

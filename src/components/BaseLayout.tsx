@@ -12,12 +12,12 @@ const { Header, Footer, Sider, Content } = Layout;
 const BaseLayout: FC = (): ReactElement => {
   const [collapsed, setCollapsed] = useState(false);  // 侧边栏的展示与隐藏
 
-  let { firstLevelPathKeValue, secondaryPathValue } = useCurrentPath();  // 当前路由路径
-  if (firstLevelPathKeValue === undefined) {
-    firstLevelPathKeValue = '';
+  let { firstLevelPathValue, secondaryPathValue } = useCurrentPath();  // 当前路由路径
+  if (firstLevelPathValue === undefined) {
+    firstLevelPathValue = '';
     secondaryPathValue = '';
   } else {
-    firstLevelPathKeValue = `/${firstLevelPathKeValue}`;
+    firstLevelPathValue = `/${firstLevelPathValue}`;
     if (secondaryPathValue === undefined) {
       secondaryPathValue = '';
     } else {
@@ -51,7 +51,7 @@ const BaseLayout: FC = (): ReactElement => {
             css={{
               color: '#9A9A9A',
             }}
-          >{`首页${firstLevelPathKeValue}`}</span>
+          >{`首页${firstLevelPathValue}`}</span>
           <span>{secondaryPathValue}</span>
         </div>
       </Header>

@@ -1,4 +1,5 @@
 /* @jsxImportSource @emotion/react */
+import BarChart from './BarChart';
 import Operation from './Operation';
 import TableElement from './TableElement';
 import useCurrentPath from '@/hooks/useCurrentPath';
@@ -25,6 +26,7 @@ const earlyWarning: FC = (): ReactElement => {
           {title}
         </div>
         <Operation firstLevelPathKey={firstLevelPathKey} />
+        <BarChart firstLevelPathKey={firstLevelPathKey} />
         <TableElement firstLevelPathKey={firstLevelPathKey} />
       </div>
     </>
