@@ -12,7 +12,7 @@ export const update = (data: any) => new Promise(async (resolve, reject) => {
   try {
     const res = await axios({
       method: 'post',
-      url: `http://localhost:8080/rest/decision/element/threshold/action/update`,
+      url: `http://8.134.59.53:8080/rest/decision/element/threshold/action/update`,
       data,
     });
     if (res && res.status === 200) {
@@ -30,7 +30,7 @@ export const getEarlyWaring = (type: string, params: any) => new Promise(async (
   try {
     const res = await axios({
       method: 'get',
-      url: `http://localhost:8080/rest/decision/element/${type}/warning/query`,
+      url: `http://8.134.59.53:8080/rest/decision/element/${type}/warning/query`,
       params,
     });
     if (res && res.status === 200) {

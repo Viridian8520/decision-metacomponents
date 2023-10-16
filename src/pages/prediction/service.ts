@@ -4,7 +4,7 @@ import { PredictionParams } from './type';
 export const getStaffPrediction = (params: PredictionParams) => new Promise((resolve, reject) => {
   return axios({
     method: 'get',
-    url: 'http://localhost:8080/rest/decision/element/staff/prediction/query',
+    url: 'http://8.134.59.53:8080/rest/decision/element/staff/prediction/query',
     params: params,
   }).then(res => {
     if (res && res.status === 200) {
@@ -20,7 +20,7 @@ export const getStaffPrediction = (params: PredictionParams) => new Promise((res
 export const getWealthPrediction = (params: PredictionParams) => new Promise((resolve, reject) => {
   return axios({
     method: 'get',
-    url: 'http://localhost:8080/rest/decision/element/wealth/prediction/query',
+    url: 'http://8.134.59.53:8080/rest/decision/element/wealth/prediction/query',
     params: params,
   }).then(res => {
     if (res && res.status === 200) {
@@ -36,7 +36,7 @@ export const getWealthPrediction = (params: PredictionParams) => new Promise((re
 export const getConveyPrediction = (params: PredictionParams) => new Promise((resolve, reject) => {
   return axios({
     method: 'get',
-    url: 'http://localhost:8080/rest/decision/element/convey/prediction/query',
+    url: 'http://8.134.59.53:8080/rest/decision/element/convey/prediction/query',
     params: params,
   }).then(res => {
     if (res && res.status === 200) {
@@ -52,7 +52,7 @@ export const getConveyPrediction = (params: PredictionParams) => new Promise((re
 export const getProductionPrediction = (params: PredictionParams) => new Promise((resolve, reject) => {
   return axios({
     method: 'get',
-    url: 'http://localhost:8080/rest/decision/element/production/prediction/query',
+    url: 'http://8.134.59.53:8080/rest/decision/element/production/prediction/query',
     params: params,
   }).then(res => {
     if (res && res.status === 200) {
@@ -68,7 +68,7 @@ export const getProductionPrediction = (params: PredictionParams) => new Promise
 export const getSalePrediction = (params: PredictionParams) => new Promise((resolve, reject) => {
   return axios({
     method: 'get',
-    url: 'http://localhost:8080/rest/decision/element/sale/prediction/query',
+    url: 'http://8.134.59.53:8080/rest/decision/element/sale/prediction/query',
     params: params,
   }).then(res => {
     if (res && res.status === 200) {

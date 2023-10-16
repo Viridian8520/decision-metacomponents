@@ -16,7 +16,7 @@ export const getStaffDecision = (params: DecisionParams) => new Promise((resolve
   } else {
     return axios({
       method: 'get',
-      url: 'http://localhost:8080/rest/decision/element/staff/measure/query',
+      url: 'http://8.134.59.53:8080/rest/decision/element/staff/measure/query',
       params: params,
     }).then(res => {
       if (res && res.status === 200) {
@@ -36,7 +36,7 @@ export const getWealthDecision = (params: DecisionParams) => new Promise((resolv
   } else {
     return axios({
       method: 'get',
-      url: 'http://localhost:8080/rest/decision/element/wealth/measure/query',
+      url: 'http://8.134.59.53:8080/rest/decision/element/wealth/measure/query',
       params: params,
     }).then(res => {
       if (res && res.status === 200) {
@@ -56,7 +56,7 @@ export const getConveyDecision = (params: DecisionParams) => new Promise((resolv
   } else {
     return axios({
       method: 'get',
-      url: 'http://localhost:8080/rest/decision/element/convey/measure/query',
+      url: 'http://8.134.59.53:8080/rest/decision/element/convey/measure/query',
       params: params,
     }).then(res => {
       if (res && res.status === 200) {
@@ -76,7 +76,7 @@ export const getProductionDecision = (params: DecisionParams) => new Promise((re
   } else {
     return axios({
       method: 'get',
-      url: 'http://localhost:8080/rest/decision/element/production/measure/query',
+      url: 'http://8.134.59.53:8080/rest/decision/element/production/measure/query',
       params: params,
     }).then(res => {
       if (res && res.status === 200) {
@@ -96,7 +96,7 @@ export const getSaleDecision = (params: DecisionParams) => new Promise((resolve,
   } else {
     return axios({
       method: 'get',
-      url: 'http://localhost:8080/rest/decision/element/sale/measure/query',
+      url: 'http://8.134.59.53:8080/rest/decision/element/sale/measure/query',
       params: params,
     }).then(res => {
       if (res && res.status === 200) {
