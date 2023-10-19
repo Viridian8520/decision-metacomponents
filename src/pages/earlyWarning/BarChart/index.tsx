@@ -24,8 +24,10 @@ const BarChart = (props: { firstLevelPathKey: string }): ReactElement => {
   // 选择的预警紧急程度
   const alarmTypeOption = earlyWarningOption?.alarmType ?? 2;
 
+  // 柱状图数据
   const [YAxisData, setYAxisData] = useState<any[]>([]);
   const [SeriesData, setSeriesData] = useState<any[]>([]);
+  const barChartHeight: number = YAxisData.length > 20 ? YAxisData.length * 20 : 400;
 
   // 格式化事件时间戳
   const formatDate = (timestamp: number): string => {
@@ -159,7 +161,7 @@ const BarChart = (props: { firstLevelPathKey: string }): ReactElement => {
         YAxisData.length !== 0 && SeriesData.length !== 0 && <Charts
           options={barChartOption}
           style={{
-            height: '800px',
+            height: `${barChartHeight}px`,
           }}
         />
       }
