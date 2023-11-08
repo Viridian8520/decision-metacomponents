@@ -1,7 +1,8 @@
 /* @jsxImportSource @emotion/react */
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Layout, Menu, Button } from 'antd';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
+import BackToTopButton from './BackToTopButton';
 import HomePageRouters from '@/routes/HomePageRoutes';
 import { meunItems } from '@/routes/routesConfig';
 import useCurrentPath from '@/hooks/useCurrentPath';
@@ -11,6 +12,7 @@ const { Header, Footer, Sider, Content } = Layout;
 
 const BaseLayout: FC = (): ReactElement => {
   const [collapsed, setCollapsed] = useState(false);  // 侧边栏的展示与隐藏
+  const contentElement = useRef<HTMLElement>(null);  // 内容区
 
   let { firstLevelPathValue, secondaryPathValue } = useCurrentPath();  // 当前路由路径
   if (firstLevelPathValue === undefined) {
@@ -65,12 +67,14 @@ const BaseLayout: FC = (): ReactElement => {
           <Menu mode='inline' items={meunItems} />
         </Sider>
         <Content
+          ref={contentElement}
           css={{
             padding: '10px',
             overflow: 'auto',
           }}
         >
           <HomePageRouters />
+          <BackToTopButton targetElement={contentElement.current as HTMLElement} />
         </Content>
       </Layout>
       <Footer
