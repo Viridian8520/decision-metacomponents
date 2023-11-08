@@ -2,6 +2,6 @@
 ## 下载依赖
 `pnpm install`
 ## 启动项目
-`npm start`
+pnpm start`
 ## 打包项目
-`npm run build`
+`pnpm run build`
