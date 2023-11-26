@@ -145,7 +145,7 @@ const production: FC = (): ReactElement => {
             color: '#1677ff',
           }}
         >
-          生产量预测情况
+          生产链预测情况
         </div>
         <div
           css={{

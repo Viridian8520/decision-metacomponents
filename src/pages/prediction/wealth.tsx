@@ -185,7 +185,7 @@ const wealth: FC = (): ReactElement => {
             color: '#1677ff',
           }}
         >
-          资金预测情况
+          资金链预测情况
         </div>
         <div
           css={{

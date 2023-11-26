@@ -137,7 +137,7 @@ const convey: FC = (): ReactElement => {
             color: '#1677ff',
           }}
         >
-          物流预测情况
+          物流链预测情况
         </div>
         <div
           css={{

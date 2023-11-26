@@ -10,7 +10,7 @@ const Loading: FC = (): ReactElement => (
       height: '97%',
     }}
   >
-    <Spin size='large' tip='页面加载中，请稍后……'>
+    <Spin size='large'>
       {/* 消除警告：Warning: [antd: Spin] `tip` only work in nest pattern. */}
       <></>
     </Spin>

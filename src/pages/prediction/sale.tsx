@@ -161,7 +161,7 @@ const sale: FC = (): ReactElement => {
             color: '#1677ff',
           }}
         >
-          汽车销售预测情况
+          销售链预测情况
         </div>
         <div
           css={{

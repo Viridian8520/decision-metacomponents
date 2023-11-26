@@ -42,11 +42,11 @@ export const translationTable: any = {
 
 // 预警页左上角标题
 export enum earlyWarningTitle {
-  'staff' = '国家重点实验室人员预警情况',
-  'wealth' = '资金预警情况',
-  'convey' = '货运量预警情况',
-  'production' = '生产量预警',
-  'sale' = '汽车销售预警情况',
+  'staff' = '人力链预警情况',
+  'wealth' = '资金链预警情况',
+  'convey' = '物流链预警情况',
+  'production' = '生产链预警情况',
+  'sale' = '销售链预警情况',
 }
 
 // 预警页人力链阈值波动范围
