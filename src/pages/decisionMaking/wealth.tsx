@@ -1,11 +1,13 @@
 /* @jsxImportSource @emotion/react */
-import { Button, Form, Table } from 'antd';
-import { Fragment, type FC, type ReactElement, useState } from 'react';
+import { Table } from 'antd';
+import { Fragment, type FC, type ReactElement, useState, useRef, useEffect } from 'react';
 import { getEarlyWaringOptionOnRedux, getWealthDecision } from './service';
 import { EChartOption } from "echarts";
 import { Charts } from "@/components/Charts";
 import { translationTable } from '@/utils/constant';
 import { deepClone } from '@/utils/objectUtils';
+import useCurrentPath from '@/hooks/useCurrentPath';
+import DecisionOperation from './decisionOperation';
 
 const corporationOption: EChartOption = {
   title: {
@@ -177,18 +179,31 @@ const wealth: FC = (): ReactElement => {
   const [corporationOptions, setCorporationOptions] = useState<EChartOption>(corporationOption);
   const [levelOptions, setLevelOptions] = useState<EChartOption>(levelOption);
   const [measureOptions, setMeasureOptions] = useState<EChartOption>(measureOption);
+  const { firstLevelPathKey } = useCurrentPath();  // 当前路由
   // const [topoOptions, setTopoOptions] = useState<EChartOption>(topoOption);
   // 保存在redux的选择的预警数据以及其更新方法
-  const { earlyWarningOption } = getEarlyWaringOptionOnRedux("wealth");
-  let formData: any = earlyWarningOption || {
-    categories: undefined,  // 资金链
-    time: undefined, // 以秒为单位的时间戳
-    granularity: undefined, // 年/月/季
-    alarmType: undefined, // 预警类型（全部/高于/低于）
-    corporation: undefined,  // 公司
-    attributes: undefined, // 阈值波动范围
-    attributesValue: undefined, // 阈值
-  };
+  const { earlyWarningOption }: any = getEarlyWaringOptionOnRedux("wealth");
+  let formData: any = useRef({
+    categories: earlyWarningOption?.categories || undefined,  // 人力链
+    time: earlyWarningOption?.time || undefined, // 以秒为单位的时间戳
+    granularity: earlyWarningOption?.granularity || undefined, // 年/月/季
+    alarmType: earlyWarningOption?.alarmType || undefined, // 预警类型（全部/高于/低于）
+    corporation: earlyWarningOption?.company || undefined,  // 公司
+    attributes: earlyWarningOption?.attributes || undefined, // 阈值波动范围
+    attributesValue: earlyWarningOption?.attributesValue || undefined, // 阈值
+  });
+
+  useEffect(() => {
+    formData.current = {
+      categories: earlyWarningOption?.categories || undefined,  // 人力链
+      time: earlyWarningOption?.time || undefined, // 以秒为单位的时间戳
+      granularity: earlyWarningOption?.granularity || undefined, // 年/月/季
+      alarmType: earlyWarningOption?.alarmType || undefined, // 预警类型（全部/高于/低于）
+      corporation: earlyWarningOption?.company || undefined,  // 公司
+      attributes: earlyWarningOption?.attributes || undefined, // 阈值波动范围
+      attributesValue: earlyWarningOption?.attributesValue || undefined, // 阈值
+    };
+  }, [earlyWarningOption])
 
   // 格式化事件时间戳
   const formatDate = (timestamp: number): string => {
@@ -197,11 +212,11 @@ const wealth: FC = (): ReactElement => {
     const month: any = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份从0开始，需要加1，并补0
     const day: any = (date.getDate() + 1).toString().padStart(2, '0');
 
-    if (formData.granularity === 1 || formData.granularity === '1') {
+    if (formData.current.granularity === 1 || formData.current.granularity === '1') {
       return `第${Math.floor((month - 1) / 3) + 1}季度`;
-    } else if (formData.granularity === 2 || formData.granularity === '2') {
+    } else if (formData.current.granularity === 2 || formData.current.granularity === '2') {
       return `${month}月`;
-    } else if (formData.granularity === 3 || formData.granularity === '3') {
+    } else if (formData.current.granularity === 3 || formData.current.granularity === '3') {
       return `${day}日`;
     } else {
       return '无';
@@ -219,9 +234,9 @@ const wealth: FC = (): ReactElement => {
       }
     },
     {
-      title: formData.attributes,
-      dataIndex: translateSelectedOption(formData.attributes),
-      key: translateSelectedOption(formData.attributes),
+      title: formData.current.attributes,
+      dataIndex: translateSelectedOption(formData.current.attributes),
+      key: translateSelectedOption(formData.current.attributes),
     },
     {
       title: '原因',
@@ -250,7 +265,7 @@ const wealth: FC = (): ReactElement => {
     const corporationList = getAllCorporationList(dataWithCategories);
 
     for (let i = 0; i < corporationList.length; i++) {
-      if (formData.corporation === corporationList[i]) {
+      if (formData.current.corporation === corporationList[i]) {
         currentDataSource.push(...dataWithCategories[corporationList[i]]);
       }
     }
@@ -269,7 +284,7 @@ const wealth: FC = (): ReactElement => {
 
     for (let i = 0; i < corporationList.length; i++) {
       for (let j = 0; j < dataWithCategories[corporationList[i]].length; j++) {
-        dataWithCategories[corporationList[i]][j].categories = formData.attributes;
+        dataWithCategories[corporationList[i]][j].categories = formData.current.attributes;
       }
     }
 
@@ -281,7 +296,7 @@ const wealth: FC = (): ReactElement => {
     let corporationList: string[] = [];
 
     for (let i = 0; i < allCorporationList.length; i++) {
-      if (formData.corporation === allCorporationList[i]) {
+      if (formData.current.corporation === allCorporationList[i]) {
         corporationList = [`${allCorporationList[i]}`]
       }
     }
@@ -482,10 +497,10 @@ const wealth: FC = (): ReactElement => {
   const onFinish = () => {
     // setAlarmType(values.alarmType);
     const params = {
-      time: formData.time,
-      granularity: formData.granularity,
-      categories: formData.categories,
-      attributes: formData.attributes,
+      time: formData.current.time,
+      granularity: formData.current.granularity,
+      categories: formData.current.categories,
+      attributes: formData.current.attributes,
     }
 
     getWealthDecision(params).then((res: any) => {
@@ -650,7 +665,7 @@ const wealth: FC = (): ReactElement => {
         >
           资金链决策分析
         </div>
-        <div
+        {/* <div
           css={{
             display: 'inline-block',
             position: 'absolute',
@@ -658,7 +673,6 @@ const wealth: FC = (): ReactElement => {
             right: '0',
           }}
         >
-          {/* <span>请选择预警类型：</span> */}
           <Form
             layout="inline"
             // initialValues={{ granularity: 1, time: 1690946777 }}
@@ -667,33 +681,21 @@ const wealth: FC = (): ReactElement => {
               display: 'inline-flex'
             }}
           >
-            {/* <Form.Item
-              name="alarmType"
-            >
-              <Select
-                css={{
-                  width: '100px !important',
-                }}
-              >
-                <Select.Option value={2}>全部</Select.Option>
-                <Select.Option value={1}>高于预警</Select.Option>
-                <Select.Option value={0}>低于预警</Select.Option>
-              </Select>
-            </Form.Item> */}
             <Form.Item>
               <Button type="primary" htmlType="submit">
                 生成决策
               </Button>
             </Form.Item>
           </Form>
-        </div>
+        </div> */}
       </div>
+      <DecisionOperation firstLevelPathKey={firstLevelPathKey} decisionSubmit={onFinish} />
       <div
         css={{
           marginTop: "10px",
         }}
       >
-        1. 企业资金决策措施及响应程度
+        1. 资金链决策措施及响应程度
       </div>
       <div
         css={{
@@ -711,7 +713,7 @@ const wealth: FC = (): ReactElement => {
           marginTop: "10px",
         }}
       >
-        2. 企业资金决策分析
+        2. 资金链决策分析
       </div>
       <div
         css={{

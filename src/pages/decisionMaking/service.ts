@@ -5,14 +5,14 @@ import { useAppSelector } from '@/states/hooks';
 import { updateStaffOptionData, updateWealthOptionData, updateConveyOptionData, updateProductionOptionData, updateSaleOptionData } from '@/states/earlyWarningOptionSlice';
 // import { updateStaffReturnData, updateWealthReturnData, updateConveyReturnData, updateProductionReturnData, updateSaleReturnData } from '@/states/earlyWarningReturnSlice';
 import type { EarlyWarningOptionData } from '@/states/earlyWarningOptionSlice';
-import { message } from 'antd';
+// import { message } from 'antd';
 // import type { EarlyWarningReturnData } from '@/states/earlyWarningReturnSlice';
 
 const firstLevelPaths = Object.keys(firstLevelMenuEnum);
 
 export const getStaffDecision = (params: DecisionParams) => new Promise((resolve, reject) => {
   if (params.attributes === undefined) {
-    message.info('生成决策前请先到对应链的预警界面生成预警！');
+    // message.info('生成决策前请先到对应链的预警界面生成预警！');
   } else {
     return axios({
       method: 'get',
@@ -32,7 +32,7 @@ export const getStaffDecision = (params: DecisionParams) => new Promise((resolve
 
 export const getWealthDecision = (params: DecisionParams) => new Promise((resolve, reject) => {
   if (params.attributes === undefined) {
-    message.info('生成决策前请先到对应链的预警界面生成预警！');
+    // message.info('生成决策前请先到对应链的预警界面生成预警！');
   } else {
     return axios({
       method: 'get',
@@ -52,7 +52,7 @@ export const getWealthDecision = (params: DecisionParams) => new Promise((resolv
 
 export const getConveyDecision = (params: DecisionParams) => new Promise((resolve, reject) => {
   if (params.attributes === undefined) {
-    message.info('生成决策前请先到对应链的预警界面生成预警！');
+    // message.info('生成决策前请先到对应链的预警界面生成预警！');
   } else {
     return axios({
       method: 'get',
@@ -72,7 +72,7 @@ export const getConveyDecision = (params: DecisionParams) => new Promise((resolv
 
 export const getProductionDecision = (params: DecisionParams) => new Promise((resolve, reject) => {
   if (params.attributes === undefined) {
-    message.info('生成决策前请先到对应链的预警界面生成预警！');
+    // message.info('生成决策前请先到对应链的预警界面生成预警！');
   } else {
     return axios({
       method: 'get',
@@ -92,7 +92,7 @@ export const getProductionDecision = (params: DecisionParams) => new Promise((re
 
 export const getSaleDecision = (params: DecisionParams) => new Promise((resolve, reject) => {
   if (params.attributes === undefined) {
-    message.info('生成决策前请先到对应链的预警界面生成预警！');
+    // message.info('生成决策前请先到对应链的预警界面生成预警！');
   } else {
     return axios({
       method: 'get',

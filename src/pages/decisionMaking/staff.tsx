@@ -1,10 +1,12 @@
 /* @jsxImportSource @emotion/react */
-import { Button, Form, Table } from 'antd';
-import { Fragment, type FC, type ReactElement, useState } from 'react';
+import { Table } from 'antd';
+import { Fragment, type FC, type ReactElement, useState, useEffect, useRef } from 'react';
 import { getEarlyWaringOptionOnRedux, getStaffDecision } from './service';
 import { EChartOption } from "echarts";
 import { Charts } from "@/components/Charts";
 import { translationTable } from '@/utils/constant';
+import useCurrentPath from '@/hooks/useCurrentPath';
+import DecisionOperation from './decisionOperation';
 
 const corporationOption: EChartOption = {
   title: {
@@ -181,7 +183,7 @@ const translateSelectedOption = (newOption: string) => {
 //     nodes: [
 //       {
 //         id: "0",
-//         name: "人力链人员数量预测情况",
+//         name: "人力链预测情况",
 //         draggable: true,
 //         colors: blue,
 //       },
@@ -278,18 +280,31 @@ const staff: FC = (): ReactElement => {
   const [corporationOptions, setCorporationOptions] = useState<EChartOption>(corporationOption);
   const [levelOptions, setLevelOptions] = useState<EChartOption>(levelOption);
   const [measureOptions, setMeasureOptions] = useState<EChartOption>(measureOption);
+  const { firstLevelPathKey } = useCurrentPath();  // 当前路由
   // const [topoOptions, setTopoOptions] = useState<EChartOption>(topoOption);
   // 保存在redux的选择的预警数据以及其更新方法
-  const { earlyWarningOption } = getEarlyWaringOptionOnRedux("staff");
-  let formData: any = earlyWarningOption || {
-    categories: undefined,  // 人力链
-    time: undefined, // 以秒为单位的时间戳
-    granularity: undefined, // 年/月/季
-    alarmType: undefined, // 预警类型（全部/高于/低于）
-    corporation: undefined,  // 公司
-    attributes: undefined, // 阈值波动范围
-    attributesValue: undefined, // 阈值
-  };
+  const { earlyWarningOption }: any = getEarlyWaringOptionOnRedux("staff");
+  let formData: any = useRef({
+    categories: earlyWarningOption?.categories || undefined,  // 人力链
+    time: earlyWarningOption?.time || undefined, // 以秒为单位的时间戳
+    granularity: earlyWarningOption?.granularity || undefined, // 年/月/季
+    alarmType: earlyWarningOption?.alarmType || undefined, // 预警类型（全部/高于/低于）
+    corporation: earlyWarningOption?.company || undefined,  // 公司
+    attributes: earlyWarningOption?.attributes || undefined, // 阈值波动范围
+    attributesValue: earlyWarningOption?.attributesValue || undefined, // 阈值
+  });
+
+  useEffect(() => {
+    formData.current = {
+      categories: earlyWarningOption?.categories || undefined,  // 人力链
+      time: earlyWarningOption?.time || undefined, // 以秒为单位的时间戳
+      granularity: earlyWarningOption?.granularity || undefined, // 年/月/季
+      alarmType: earlyWarningOption?.alarmType || undefined, // 预警类型（全部/高于/低于）
+      corporation: earlyWarningOption?.company || undefined,  // 公司
+      attributes: earlyWarningOption?.attributes || undefined, // 阈值波动范围
+      attributesValue: earlyWarningOption?.attributesValue || undefined, // 阈值
+    };
+  }, [earlyWarningOption])
 
   const columns = [
     // {
@@ -303,9 +318,9 @@ const staff: FC = (): ReactElement => {
       key: 'skill',
     },
     {
-      title: formData.attributes,
-      dataIndex: translateSelectedOption(formData.attributes),
-      key: translateSelectedOption(formData.attributes),
+      title: formData.current.attributes,
+      dataIndex: translateSelectedOption(formData.current.attributes),
+      key: translateSelectedOption(formData.current.attributes),
     },
     {
       title: '原因',
@@ -333,7 +348,7 @@ const staff: FC = (): ReactElement => {
     const corporationList = getAllCorporationList(data);
 
     for (let i = 0; i < corporationList.length; i++) {
-      if (formData.corporation === corporationList[i]) {
+      if (formData.current.corporation === corporationList[i]) {
         currentDataSource.push(...data[corporationList[i]]);
       }
     }
@@ -351,7 +366,7 @@ const staff: FC = (): ReactElement => {
     let corporationList: string[] = [];
 
     for (let i = 0; i < allCorporationList.length; i++) {
-      if (formData.corporation === allCorporationList[i]) {
+      if (formData.current.corporation === allCorporationList[i]) {
         corporationList = [`${allCorporationList[i]}`]
       }
     }
@@ -444,12 +459,11 @@ const staff: FC = (): ReactElement => {
   }
 
   const onFinish = () => {
-    // setAlarmType(values.alarmType);
     const params = {
-      time: formData.time,
-      granularity: formData.granularity,
-      categories: formData.categories,
-      attributes: formData.attributes,
+      time: formData.current.time,
+      granularity: formData.current.granularity,
+      categories: formData.current.categories,
+      attributes: formData.current.attributes,
     }
 
     getStaffDecision(params).then((res: any) => {
@@ -614,7 +628,7 @@ const staff: FC = (): ReactElement => {
         >
           人力链决策分析
         </div>
-        <div
+        {/* <div
           css={{
             display: 'inline-block',
             position: 'absolute',
@@ -622,7 +636,6 @@ const staff: FC = (): ReactElement => {
             right: '0',
           }}
         >
-          {/* <span>请选择预警类型：</span> */}
           <Form
             layout="inline"
             // initialValues={{ granularity: 1, time: 1690946777 }}
@@ -631,33 +644,21 @@ const staff: FC = (): ReactElement => {
               display: 'inline-flex'
             }}
           >
-            {/* <Form.Item
-              name="alarmType"
-            >
-              <Select
-                css={{
-                  width: '100px !important',
-                }}
-              >
-                <Select.Option value={2}>全部</Select.Option>
-                <Select.Option value={1}>高于预警</Select.Option>
-                <Select.Option value={0}>低于预警</Select.Option>
-              </Select>
-            </Form.Item> */}
             <Form.Item>
               <Button type="primary" htmlType="submit">
                 生成决策
               </Button>
             </Form.Item>
           </Form>
-        </div>
+        </div> */}
       </div>
+      <DecisionOperation firstLevelPathKey={firstLevelPathKey} decisionSubmit={onFinish} />
       <div
         css={{
           marginTop: "10px",
         }}
       >
-        1. 人力链人员数量决策措施及响应程度
+        1. 人力链决策措施及响应程度
       </div>
       <div
         css={{
@@ -675,7 +676,7 @@ const staff: FC = (): ReactElement => {
           marginTop: "10px",
         }}
       >
-        2. 人力链人员数量决策分析
+        2. 人力链决策分析
       </div>
       <div
         css={{
@@ -712,7 +713,7 @@ const staff: FC = (): ReactElement => {
           marginTop: "30px",
         }}
       >
-        3. 人力链人员数量拓扑
+        3. 人力链拓扑
       </div>
       <div>
         <Charts
