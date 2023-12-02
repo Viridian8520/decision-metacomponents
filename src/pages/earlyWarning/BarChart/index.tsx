@@ -132,7 +132,7 @@ const BarChart = (props: { firstLevelPathKey: string }): ReactElement => {
   const paginationOnChange: PaginationProps['onChange'] = (page: number, pageSize: number) => {
     setCurrent(page);
     setPageSize(pageSize);
-    setYAxisDataCurrent(YAxisData.slice(pageSize * (page - 1), pageSize * page - 1));
+    setYAxisDataCurrent(YAxisData.slice(pageSize * (page - 1), pageSize * page));
   }
 
   // 柱状图配置
@@ -166,7 +166,7 @@ const BarChart = (props: { firstLevelPathKey: string }): ReactElement => {
       const { yAxisData, seriesData } = getChartData(firstLevelPathKey, earlyWarningReturn[earlyWarningOption.company]);
       setYAxisData(yAxisData);
       setSeriesData(seriesData);
-      setYAxisDataCurrent(yAxisData.slice(0, defaultPageSize - 1));
+      setYAxisDataCurrent(yAxisData.slice(0, defaultPageSize));
       // 重置页码数和每页条数
       setCurrent(defaultCurrent);
       setPageSize(defaultPageSize);
